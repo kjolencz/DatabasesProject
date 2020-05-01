@@ -74,9 +74,12 @@ def appointment_crud(toplev):
         id = box_search.get()
         sql_command = "SELECT `a_startTime`, `a_endTime` FROM `appointment` WHERE a_id = " + id
         cursor.execute(sql_command)
-        print(cursor.execute(sql_command))
-        conn.commit()
+        searchResults = (cursor.fetchall())
+        label_search = Label(toplev, text=searchResults)
+        label_search.grid(row=5, column=1, sticky="w")
 
+        conn.commit()
+    #------------------------------------------Appointment Buttons/Boxes/Labels
     label_apptId = Label(toplev, text="Appointment ID Number: ").grid(row=0, column=0, sticky="w")
     label_apptStartTime = Label(toplev, text="Appointment Start Time: ").grid(row=1, column=0, sticky="w")
     label_apptEndTime = Label(toplev, text="Appointment End Time: ").grid(row=2, column=0, sticky="w")
@@ -99,7 +102,8 @@ def appointment_crud(toplev):
     btn_search_by_id = Button(toplev, text="Search", command=search)
     btn_search_by_id.grid(row = 5, column = 0, sticky = "w")
 
-    label_search = Label(toplev, text="TEST")
+    searchResults = "Result"
+    label_search = Label(toplev, text=searchResults)
     label_search.grid(row=5, column=1, sticky="w")
 
     box_search = Entry(toplev)
