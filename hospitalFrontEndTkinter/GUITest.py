@@ -570,7 +570,7 @@ def doctor_crud(level):
         conn.commit()
         clear_fields()
 
-    #Method and Button to Clear Fields for patient
+    #Method and Button to Clear Fields for doctor
     def clear_fields():
         box_id.delete(0,END)
         box_fn.delete(0,END)
@@ -665,11 +665,632 @@ def doctor_crud(level):
     label_search.grid(row=11, column=1, sticky="w")
     box_search = Entry(level)
     box_search.grid(row=11, column=2)
+#---------------------------------------CRUD Methods for Nurse Window----------------------------------------------
+def nurse_crud(level):
+    #Method and button to add Nurse to db
+
+    def add_to_db():
+        id = box_id.get()
+        fn = box_fn.get()
+        ln = box_ln.get()
+        mi=box_mi.get()
+        gender = box_gender.get()
+        salary = box_salary.get()
+        phoneNum = box_phonenum.get()
+        ssn = box_ssn.get()
+        startdate = box_startdate.get()
+        enddate = box_enddate.get()
+
+        values = id + ",\"" + fn + "\",\"" + ln + "\""+ ",\"" + mi + "\",\"" + gender + "\",\"" + salary + "\",\"" + phoneNum + "\",\"" + ssn + "\""+ ",\"" + startdate + "\",\"" + enddate + "\""
+        sql_command = "INSERT INTO `nurse`(`n_id`, `n_firstName`, `n_lastName`, `n_middleIn`, `n_gender`, `n_salary`,`n_phoneNum`, `n_ssn`, `n_startDate`, `n_endDate`) VALUES ("
+        sql_command = sql_command + values
+        sql_command = sql_command + ")"
+        cursor.execute(sql_command)
+        conn.commit()
+        clear_fields()
+
+    #Method and Button to Clear Fields for nurse
+    def clear_fields():
+        box_id.delete(0,END)
+        box_fn.delete(0,END)
+        box_ln.delete(0,END)
+        box_mi.delete(0,END)
+        box_gender.delete(0,END)
+        box_phonenum.delete(0,END)
+        box_ssn.delete(0,END)
+        box_startdate.delete(0,END)
+        box_enddate.delete(0,END)
+        box_salary.delete(0,END)
+
+    #Method and Button to Delete ID From DB
+    def delete():
+        id = ""
+        id = id + box_id.get()
+        sql_command = "DELETE FROM `nurse` WHERE n_id = "
+        sql_command = sql_command + id
+        cursor.execute(sql_command)
+        conn.commit()
+        clear_fields()
+
+    def update():
+        id = box_id.get()
+        fn = box_fn.get()
+        ln = box_ln.get()
+        mi = box_mi.get()
+        gender = box_gender.get()
+        salary = box_salary.get()
+        phoneNum = box_phonenum.get()
+        ssn = box_ssn.get()
+        startdate = box_startdate.get()
+        enddate = box_enddate.get()
+        sql_command = "UPDATE `nurse` SET `n_firstName`=\"" + fn + "\",`n_lastName`=\""+ ln + "\",`n_middleIn`=\""+ mi + "\",`n_gender`=\"" + gender + "\",`n_salary`=\"" + salary + "\",`n_phoneNum`=\""+ phoneNum + "\",`n_ssn`="+ ssn + ",`n_startDate`=\""+ startdate + "\",`n_endDate`=\""+ enddate + "\" WHERE n_id = " + id
+        cursor.execute(sql_command)
+        conn.commit()
+        clear_fields()
+    def search():
+        id = box_search.get()
+        sql_command = "SELECT `n_firstName`, `n_lastName`, `n_middleIn`, `n_gender`,`n_salary`,`n_phoneNum`,`n_ssn`,`n_startDate`,`n_endDate`  FROM `nurse` WHERE n_id = " + id
+        print(sql_command)
+        cursor.execute(sql_command)
+        searchResults = (cursor.fetchall())
+        label_search = Label(level, text=searchResults)
+        label_search.grid(row=11, column=3, sticky="w")
+        conn.commit()
+    #------------------------------------------Nurse Buttons/Boxes/Labels
+    label_id= Label(level, text="Nurse ID Number: ").grid(row=0, column=0, sticky="w")
+    label_fn = Label(level, text="Nurse First Name: ").grid(row=1, column=0, sticky="w")
+    label_ln = Label(level, text="Nurse Last Name: ").grid(row=2, column=0, sticky="w")
+    label_mi = Label(level, text="Nurse Middle Initial: ").grid(row=3, column=0, sticky="w")
+    label_gender= Label(level, text="Nurse Gender: ").grid(row=4, column=0, sticky="w")
+    label_salary = Label(level, text="Nurse Salary: ").grid(row=5, column=0, sticky="w")
+    label_phonenum = Label(level, text="Nurse Phone Number: ").grid(row=6, column=0, sticky="w")
+    label_patientssn = Label(level, text="Nurse Social Security Number(No Hyphens): ").grid(row=7, column=0, sticky="w")
+    label_startdate= Label(level, text="Nurse Start Date (yyyy-dd-mm): ").grid(row=8, column=0, sticky="w")
+    label_enddate = Label(level, text="Nurse End Date (yyyy-dd-mm): ").grid(row=9, column=0, sticky="w")
+
+    box_id = Entry(level)
+    box_id.grid(row=0, column=1)
+    box_fn = Entry(level)
+    box_fn.grid(row=1,column=1)
+    box_ln = Entry(level)
+    box_ln.grid(row=2,column=1)
+    box_mi = Entry(level)
+    box_mi.grid(row=3, column=1)
+    box_gender = Entry(level)
+    box_gender.grid(row=4, column=1)
+    box_salary = Entry(level)
+    box_salary.grid(row=5, column=1)
+    box_phonenum = Entry(level)
+    box_phonenum.grid(row=6, column=1)
+    box_ssn = Entry(level)
+    box_ssn.grid(row=7, column=1)
+    box_startdate = Entry(level)
+    box_startdate.grid(row=8, column=1)
+    box_enddate = Entry(level)
+    box_enddate.grid(row=9, column=1)
+
+    btn_add = Button(level, text="Add Nurse To Database", command=add_to_db)
+    btn_add.grid(row=10, column=1, sticky="w")
+    btn_clear_fields = Button(level, text="Clear Fields", command=clear_fields)
+    btn_clear_fields.grid(row=10, column=2)
+    btn_delete = Button(level, text="Delete From DB (Only Enter Nurse ID#", command=delete)
+    btn_delete.grid(row=10, column=3)
+    btn_update = Button(level, text="Update Nurse Information (Please Fill In All Information)", command=update)
+    btn_update.grid(row=10, column=0, sticky = "w")
+    btn_search_by_id = Button(level, text="Search by ID#", command=search)
+    btn_search_by_id.grid(row=11, column=0, sticky="w")
+    searchResults = "Result"
+    label_search = Label(level, text=searchResults)
+    label_search.grid(row=11, column=1, sticky="w")
+    box_search = Entry(level)
+    box_search.grid(row=11, column=2)
+#---------------------------------------CRUD Methods for Secretary Window----------------------------------------------
+def secretary_crud(level):
+    #Method and button to add secretary to db
+
+    def add_to_db():
+        id = box_id.get()
+        fn = box_fn.get()
+        ln = box_ln.get()
+        mi=box_mi.get()
+        gender = box_gender.get()
+        salary = box_salary.get()
+        phoneNum = box_phonenum.get()
+        ssn = box_ssn.get()
+        startdate = box_startdate.get()
+        enddate = box_enddate.get()
+
+        values = id + ",\"" + fn + "\",\"" + ln + "\""+ ",\"" + mi + "\",\"" + gender + "\",\"" + salary + "\",\"" + phoneNum + "\",\"" + ssn + "\""+ ",\"" + startdate + "\",\"" + enddate + "\""
+        sql_command = "INSERT INTO `secretary`(`s_id`, `s_firstName`, `s_lastName`, `s_middleIn`, `s_gender`, `s_salary`,`s_phoneNumber`, `s_ssn`, `s_startDate`, `s_endDate`) VALUES ("
+        sql_command = sql_command + values
+        sql_command = sql_command + ")"
+        cursor.execute(sql_command)
+        conn.commit()
+        clear_fields()
+
+    #Method and Button to Clear Fields for secretary
+    def clear_fields():
+        box_id.delete(0,END)
+        box_fn.delete(0,END)
+        box_ln.delete(0,END)
+        box_mi.delete(0,END)
+        box_gender.delete(0,END)
+        box_phonenum.delete(0,END)
+        box_ssn.delete(0,END)
+        box_startdate.delete(0,END)
+        box_enddate.delete(0,END)
+        box_salary.delete(0,END)
+
+    #Method and Button to Delete ID From DB
+    def delete():
+        id = ""
+        id = id + box_id.get()
+        sql_command = "DELETE FROM `secretary` WHERE s_id = "
+        sql_command = sql_command + id
+        cursor.execute(sql_command)
+        conn.commit()
+        clear_fields()
+
+    def update():
+        id = box_id.get()
+        fn = box_fn.get()
+        ln = box_ln.get()
+        mi = box_mi.get()
+        gender = box_gender.get()
+        salary = box_salary.get()
+        phoneNum = box_phonenum.get()
+        ssn = box_ssn.get()
+        startdate = box_startdate.get()
+        enddate = box_enddate.get()
+        sql_command = "UPDATE `secretary` SET `s_firstName`=\"" + fn + "\",`s_lastName`=\""+ ln + "\",`s_middleIn`=\""+ mi + "\",`s_gender`=\"" + gender + "\",`s_salary`=\"" + salary + "\",`s_phoneNumber`=\""+ phoneNum + "\",`s_ssn`="+ ssn + ",`s_startDate`=\""+ startdate + "\",`s_endDate`=\""+ enddate + "\" WHERE s_id = " + id
+        cursor.execute(sql_command)
+        conn.commit()
+        clear_fields()
+    def search():
+        id = box_search.get()
+        sql_command = "SELECT `s_firstName`, `s_lastName`, `s_middleIn`, `s_gender`,`s_salary`,`s_phoneNumber`,`s_ssn`,`s_startDate`,`s_endDate`  FROM `secretary` WHERE s_id = " + id
+        print(sql_command)
+        cursor.execute(sql_command)
+        searchResults = (cursor.fetchall())
+        label_search = Label(level, text=searchResults)
+        label_search.grid(row=11, column=3, sticky="w")
+        conn.commit()
+    #------------------------------------------secretary Buttons/Boxes/Labels
+    label_id= Label(level, text="Secretary ID Number: ").grid(row=0, column=0, sticky="w")
+    label_fn = Label(level, text="Secretary First Name: ").grid(row=1, column=0, sticky="w")
+    label_ln = Label(level, text="Secretary Last Name: ").grid(row=2, column=0, sticky="w")
+    label_mi = Label(level, text="Secretary Middle Initial: ").grid(row=3, column=0, sticky="w")
+    label_gender= Label(level, text="Secretary Gender: ").grid(row=4, column=0, sticky="w")
+    label_salary = Label(level, text="Secretary Salary: ").grid(row=5, column=0, sticky="w")
+    label_phonenum = Label(level, text="Secretary Phone Number: ").grid(row=6, column=0, sticky="w")
+    label_patientssn = Label(level, text="Secretary Social Security Number(No Hyphens): ").grid(row=7, column=0, sticky="w")
+    label_startdate= Label(level, text="Secretary Start Date (yyyy-dd-mm): ").grid(row=8, column=0, sticky="w")
+    label_enddate = Label(level, text="Secretary End Date (yyyy-dd-mm): ").grid(row=9, column=0, sticky="w")
+
+    box_id = Entry(level)
+    box_id.grid(row=0, column=1)
+    box_fn = Entry(level)
+    box_fn.grid(row=1,column=1)
+    box_ln = Entry(level)
+    box_ln.grid(row=2,column=1)
+    box_mi = Entry(level)
+    box_mi.grid(row=3, column=1)
+    box_gender = Entry(level)
+    box_gender.grid(row=4, column=1)
+    box_salary = Entry(level)
+    box_salary.grid(row=5, column=1)
+    box_phonenum = Entry(level)
+    box_phonenum.grid(row=6, column=1)
+    box_ssn = Entry(level)
+    box_ssn.grid(row=7, column=1)
+    box_startdate = Entry(level)
+    box_startdate.grid(row=8, column=1)
+    box_enddate = Entry(level)
+    box_enddate.grid(row=9, column=1)
+
+    btn_add = Button(level, text="Add Secretary To Database", command=add_to_db)
+    btn_add.grid(row=10, column=1, sticky="w")
+    btn_clear_fields = Button(level, text="Clear Fields", command=clear_fields)
+    btn_clear_fields.grid(row=10, column=2)
+    btn_delete = Button(level, text="Delete From DB (Only Enter Secretary ID#", command=delete)
+    btn_delete.grid(row=10, column=3)
+    btn_update = Button(level, text="Update Secretary Information (Please Fill In All Information)", command=update)
+    btn_update.grid(row=10, column=0, sticky = "w")
+    btn_search_by_id = Button(level, text="Search by ID#", command=search)
+    btn_search_by_id.grid(row=11, column=0, sticky="w")
+    searchResults = "Result"
+    label_search = Label(level, text=searchResults)
+    label_search.grid(row=11, column=1, sticky="w")
+    box_search = Entry(level)
+    box_search.grid(row=11, column=2)
+#---------------------------------------CRUD Methods for Custodian Window----------------------------------------------
+def custodian_crud(level):
+    #Method and button to add Custodian to db
+
+    def add_to_db():
+        id = box_id.get()
+        fn = box_fn.get()
+        ln = box_ln.get()
+        mi=box_mi.get()
+        gender = box_gender.get()
+        salary = box_salary.get()
+        phoneNum = box_phonenum.get()
+        ssn = box_ssn.get()
+        startdate = box_startdate.get()
+        enddate = box_enddate.get()
+
+        values = id + ",\"" + fn + "\",\"" + ln + "\""+ ",\"" + mi + "\",\"" + gender + "\",\"" + salary + "\",\"" + phoneNum + "\",\"" + ssn + "\""+ ",\"" + startdate + "\",\"" + enddate + "\""
+        sql_command = "INSERT INTO `custodian`(`c_id`, `c_firstName`, `c_lastName`, `c_middleIn`, `c_gender`, `c_salary`,`c_phoneNum`, `c_ssn`, `c_startDate`, `c_endDate`) VALUES ("
+        sql_command = sql_command + values
+        sql_command = sql_command + ")"
+        cursor.execute(sql_command)
+        conn.commit()
+        clear_fields()
+
+    #Method and Button to Clear Fields for Custodian
+    def clear_fields():
+        box_id.delete(0,END)
+        box_fn.delete(0,END)
+        box_ln.delete(0,END)
+        box_mi.delete(0,END)
+        box_gender.delete(0,END)
+        box_phonenum.delete(0,END)
+        box_ssn.delete(0,END)
+        box_startdate.delete(0,END)
+        box_enddate.delete(0,END)
+        box_salary.delete(0,END)
+
+    #Method and Button to Delete ID From DB
+    def delete():
+        id = ""
+        id = id + box_id.get()
+        sql_command = "DELETE FROM `custodian` WHERE c_id = "
+        sql_command = sql_command + id
+        cursor.execute(sql_command)
+        conn.commit()
+        clear_fields()
+
+    def update():
+        id = box_id.get()
+        fn = box_fn.get()
+        ln = box_ln.get()
+        mi = box_mi.get()
+        gender = box_gender.get()
+        salary = box_salary.get()
+        phoneNum = box_phonenum.get()
+        ssn = box_ssn.get()
+        startdate = box_startdate.get()
+        enddate = box_enddate.get()
+        sql_command = "UPDATE `custodian` SET `c_firstName`=\"" + fn + "\",`c_lastName`=\""+ ln + "\",`c_middleIn`=\""+ mi + "\",`c_gender`=\"" + gender + "\",`c_salary`=\"" + salary + "\",`c_phoneNum`=\""+ phoneNum + "\",`c_ssn`="+ ssn + ",`c_startDate`=\""+ startdate + "\",`c_endDate`=\""+ enddate + "\" WHERE c_id = " + id
+        cursor.execute(sql_command)
+        conn.commit()
+        clear_fields()
+    def search():
+        id = box_search.get()
+        sql_command = "SELECT `c_firstName`, `c_lastName`, `c_middleIn`, `c_gender`,`c_salary`,`c_phoneNum`,`c_ssn`,`c_startDate`,`c_endDate`  FROM `custodian` WHERE c_id = " + id
+        print(sql_command)
+        cursor.execute(sql_command)
+        searchResults = (cursor.fetchall())
+        label_search = Label(level, text=searchResults)
+        label_search.grid(row=11, column=3, sticky="w")
+        conn.commit()
+    #------------------------------------------Custodian Buttons/Boxes/Labels
+    label_id= Label(level, text="Custodian ID Number: ").grid(row=0, column=0, sticky="w")
+    label_fn = Label(level, text="Custodian First Name: ").grid(row=1, column=0, sticky="w")
+    label_ln = Label(level, text="Custodian Last Name: ").grid(row=2, column=0, sticky="w")
+    label_mi = Label(level, text="Custodian Middle Initial: ").grid(row=3, column=0, sticky="w")
+    label_gender= Label(level, text="Custodian Gender: ").grid(row=4, column=0, sticky="w")
+    label_salary = Label(level, text="Custodian Salary: ").grid(row=5, column=0, sticky="w")
+    label_phonenum = Label(level, text="Custodian Phone Number: ").grid(row=6, column=0, sticky="w")
+    label_patientssn = Label(level, text="Custodian Social Security Number(No Hyphens): ").grid(row=7, column=0, sticky="w")
+    label_startdate= Label(level, text="Custodian Start Date (yyyy-dd-mm): ").grid(row=8, column=0, sticky="w")
+    label_enddate = Label(level, text="Custodian End Date (yyyy-dd-mm): ").grid(row=9, column=0, sticky="w")
+
+    box_id = Entry(level)
+    box_id.grid(row=0, column=1)
+    box_fn = Entry(level)
+    box_fn.grid(row=1,column=1)
+    box_ln = Entry(level)
+    box_ln.grid(row=2,column=1)
+    box_mi = Entry(level)
+    box_mi.grid(row=3, column=1)
+    box_gender = Entry(level)
+    box_gender.grid(row=4, column=1)
+    box_salary = Entry(level)
+    box_salary.grid(row=5, column=1)
+    box_phonenum = Entry(level)
+    box_phonenum.grid(row=6, column=1)
+    box_ssn = Entry(level)
+    box_ssn.grid(row=7, column=1)
+    box_startdate = Entry(level)
+    box_startdate.grid(row=8, column=1)
+    box_enddate = Entry(level)
+    box_enddate.grid(row=9, column=1)
+
+    btn_add = Button(level, text="Add Custodian To Database", command=add_to_db)
+    btn_add.grid(row=10, column=1, sticky="w")
+    btn_clear_fields = Button(level, text="Clear Fields", command=clear_fields)
+    btn_clear_fields.grid(row=10, column=2)
+    btn_delete = Button(level, text="Delete From DB (Only Enter Custodian ID#", command=delete)
+    btn_delete.grid(row=10, column=3)
+    btn_update = Button(level, text="Update Custodian Information (Please Fill In All Information)", command=update)
+    btn_update.grid(row=10, column=0, sticky = "w")
+    btn_search_by_id = Button(level, text="Search by ID#", command=search)
+    btn_search_by_id.grid(row=11, column=0, sticky="w")
+    searchResults = "Result"
+    label_search = Label(level, text=searchResults)
+    label_search.grid(row=11, column=1, sticky="w")
+    box_search = Entry(level)
+    box_search.grid(row=11, column=2)
+#---------------------------------------CRUD Methods for Room Window----------------------------------------------
+def room_crud(level):
+    #Method and button to add Room to db
+
+    def add_to_db():
+        id = box_id.get()
+        roomnum = box_roomnum.get()
+        roomcapacity = box_roomcapacity.get()
+        roomtype =box_roomtype.get()
+        isVacant= box_vacant.get()
+        vacant = "0"
+        if isVacant == 'Y':
+            vacant = "1"
+        values = id + ",\"" + roomnum + "\",\"" + roomtype + "\""+ ",\"" + roomcapacity + "\",\"" + vacant + "\""""
+        sql_command = "INSERT INTO `room`(`currentPatient_id`, `room_number`, `room_type`, `room_capacity`, `room_vacant`) VALUES ("
+        sql_command = sql_command + values
+        sql_command = sql_command + ")"
+        cursor.execute(sql_command)
+        conn.commit()
+        clear_fields()
+
+    #Method and Button to Clear Fields for Room
+    def clear_fields():
+        box_id.delete(0,END)
+        box_roomnum.delete(0,END)
+        box_search.delete(0,END)
+        box_roomcapacity.delete(0,END)
+        box_roomtype.delete(0,END)
+        box_vacant.delete(0,END)
+
+    #Method and Button to Delete ID From DB
+    def delete():
+        id = ""
+        id = id + box_id.get()
+        sql_command = "DELETE FROM `room` WHERE currentPatient_id = "
+        sql_command = sql_command + id
+        cursor.execute(sql_command)
+        conn.commit()
+        clear_fields()
+
+    def update():
+        id = box_id.get()
+        roomnum = box_roomnum.get()
+        roomcapacity = box_roomcapacity.get()
+        roomtype = box_roomtype.get()
+        isVacant = box_vacant.get()
+        vacant = "0"
+        sql_command = "UPDATE `room` SET `room_number`=\"" + roomnum + "\",`room_type`=\""+ roomtype + "\",`room_capacity`=\""+ roomcapacity + "\",`room_vacant`=\"" + vacant + "\" WHERE currentPatient_id = " + id
+        cursor.execute(sql_command)
+        conn.commit()
+        clear_fields()
+    def search():
+        id = box_search.get()
+        sql_command = "SELECT `room_number`, `room_type`, `room_capacity`, `room_vacant`  FROM `room` WHERE currentPatient_id = " + id
+        print(sql_command)
+        cursor.execute(sql_command)
+        searchResults = (cursor.fetchall())
+        label_search = Label(level, text=searchResults)
+        label_search.grid(row=11, column=3, sticky="w")
+        conn.commit()
+    #------------------------------------------Room Buttons/Boxes/Labels
+    label_id= Label(level, text="Occupying Patient ID Number(Type 0 if Room Empty): ").grid(row=0, column=0, sticky="w")
+    label_roomnum = Label(level, text="Room Number: ").grid(row=1, column=0, sticky="w")
+    label_roomtype = Label(level, text="Room Type: ").grid(row=2, column=0, sticky="w")
+    label_roomcapacity = Label(level, text="Room Capacity: ").grid(row=3, column=0, sticky="w")
+    label_vacant= Label(level, text="Is the room vacant(Y/N): ").grid(row=4, column=0, sticky="w")
+
+    box_id = Entry(level)
+    box_id.grid(row=0, column=1)
+    box_roomnum = Entry(level)
+    box_roomnum.grid(row=1,column=1)
+    box_roomtype= Entry(level)
+    box_roomtype.grid(row=2,column=1)
+    box_roomcapacity = Entry(level)
+    box_roomcapacity.grid(row=3, column=1)
+    box_vacant = Entry(level)
+    box_vacant.grid(row=4, column=1)
+
+    btn_add = Button(level, text="Add Room To Database", command=add_to_db)
+    btn_add.grid(row=5, column=1, sticky="w")
+    btn_clear_fields = Button(level, text="Clear Fields", command=clear_fields)
+    btn_clear_fields.grid(row=5, column=2)
+    btn_delete = Button(level, text="Delete From DB (Only Enter Room Number", command=delete)
+    btn_delete.grid(row=5, column=3)
+    btn_update = Button(level, text="Update Room Information (Please Fill In All Information)", command=update)
+    btn_update.grid(row=5, column=0, sticky = "w")
+    btn_search_by_id = Button(level, text="Search by ID#", command=search)
+    btn_search_by_id.grid(row=6, column=0, sticky="w")
+    searchResults = "Result"
+    label_search = Label(level, text=searchResults)
+    label_search.grid(row=6, column=1, sticky="w")
+    box_search = Entry(level)
+    box_search.grid(row=6, column=2)
+#---------------------------------------CRUD Methods for Building Window----------------------------------------------
+def building_crud(level):
+    #Method and button to add Building to db
+
+    def add_to_db():
+        id = box_id.get()
+        buildingname = box_buildingname.get()
+        buildingcapacity = box_buildingcapacity.get()
+        numberofrooms =box_numberofrooms.get()
+        values = id + ",\"" + buildingname + "\",\"" + buildingcapacity + "\""+ ",\"" + numberofrooms + "\""""
+        sql_command = "INSERT INTO `building`(`b_id`, `b_name`, `b_capacity`, `b_numRooms`) VALUES ("
+        sql_command = sql_command + values
+        sql_command = sql_command + ")"
+        print(sql_command)
+        cursor.execute(sql_command)
+        conn.commit()
+        clear_fields()
+
+    #Method and Button to Clear Fields for Building
+    def clear_fields():
+        box_id.delete(0,END)
+        box_buildingcapacity.delete(0,END)
+        box_numberofrooms.delete(0,END)
+        box_search.delete(0,END)
+        box_buildingname.delete(0,END)
+
+    #Method and Button to Delete ID From DB
+    def delete():
+        id = ""
+        id = id + box_id.get()
+        sql_command = "DELETE FROM `building` WHERE b_id = "
+        sql_command = sql_command + id
+        cursor.execute(sql_command)
+        conn.commit()
+        clear_fields()
+
+    def update():
+        #`b_id`, `b_name`, `b_capacity`, `b_numRooms`
+        id = box_id.get()
+        buildingname = box_buildingname.get()
+        buildingcapacity = box_buildingcapacity.get()
+        numberofrooms = box_numberofrooms.get()
+        sql_command = "UPDATE `building` SET `b_name`=\"" + buildingname + "\",`b_capacity`=\""+ buildingcapacity + "\",`b_numRooms`=\""+ numberofrooms + "\" WHERE b_id = " + id
+        print(sql_command)
+        cursor.execute(sql_command)
+        conn.commit()
+        clear_fields()
+    def search():
+        id = box_search.get()
+        sql_command = "SELECT `b_name`, `b_capacity`, `b_numRooms` FROM `building` WHERE b_id = " + id
+        print(sql_command)
+        cursor.execute(sql_command)
+        searchResults = (cursor.fetchall())
+        label_search = Label(level, text=searchResults)
+        label_search.grid(row=5, column=3, sticky="w")
+        conn.commit()
+    #------------------------------------------Building Buttons/Boxes/Labels
+    label_id= Label(level, text="Building ID Number: ").grid(row=0, column=0, sticky="w")
+    label_buildingname= Label(level, text="Building Name: ").grid(row=1, column=0, sticky="w")
+    label_buildingcapacity = Label(level, text="Building Capacity: ").grid(row=2, column=0, sticky="w")
+    label_numberofrooms = Label(level, text="Number of Rooms in Building: ").grid(row=3, column=0, sticky="w")
+
+    box_id = Entry(level)
+    box_id.grid(row=0, column=1)
+    box_buildingname = Entry(level)
+    box_buildingname.grid(row=1,column=1)
+    box_buildingcapacity= Entry(level)
+    box_buildingcapacity.grid(row=2,column=1)
+    box_numberofrooms = Entry(level)
+    box_numberofrooms.grid(row=3, column=1)
+
+    btn_add = Button(level, text="Add Building To Database", command=add_to_db)
+    btn_add.grid(row=4, column=1, sticky="w")
+    btn_clear_fields = Button(level, text="Clear Fields", command=clear_fields)
+    btn_clear_fields.grid(row=4, column=2)
+    btn_delete = Button(level, text="Delete From DB (Only Enter Building ID#", command=delete)
+    btn_delete.grid(row=4, column=3)
+    btn_update = Button(level, text="Update Building Information (Please Fill In All Information)", command=update)
+    btn_update.grid(row=4, column=0, sticky = "w")
+    btn_search_by_id = Button(level, text="Search by ID#", command=search)
+    btn_search_by_id.grid(row=5, column=0, sticky="w")
+    searchResults = "Result"
+    label_search = Label(level, text=searchResults)
+    label_search.grid(row=5, column=1, sticky="w")
+    box_search = Entry(level)
+    box_search.grid(row=5, column=2)
+#---------------------------------------CRUD Methods for Department Window----------------------------------------------
+def dept_crud(level):
+    #Method and button to add Department to db
+
+    def add_to_db():
+        id = box_id.get()
+        deptname = box_deptname.get()
+        deptnumemployees = box_deptnumeployees.get()
+        deptmanagername =box_deptheadmanager.get()
+        values = id + ",\"" + deptname + "\"," + deptnumemployees + ""+ ",\"" + deptmanagername + "\""""
+        sql_command = "INSERT INTO `department`(`d_id`, `d_name`, `d_numEmployees`, `d_managerFullName`) VALUES ("
+        sql_command = sql_command + values
+        sql_command = sql_command + ")"
+        cursor.execute(sql_command)
+        conn.commit()
+        clear_fields()
+
+    #Method and Button to Clear Fields for Department
+    def clear_fields():
+        box_id.delete(0,END)
+        box_deptheadmanager.delete(0,END)
+        box_deptnumeployees.delete(0,END)
+        box_deptname.delete(0,END)
+        box_search.delete(0,END)
+
+    #Method and Button to Delete ID From DB
+    def delete():
+        id = ""
+        id = id + box_id.get()
+        sql_command = "DELETE FROM `department` WHERE d_id = "
+        sql_command = sql_command + id
+        cursor.execute(sql_command)
+        conn.commit()
+        clear_fields()
+
+    def update():
+        #`d_id`, `d_name`, `d_numEmployees`, `d_managerFullName`
+        id = box_id.get()
+        deptname = box_deptname.get()
+        deptnumemployees = box_deptnumeployees.get()
+        deptmanagername = box_deptheadmanager.get()
+        sql_command = "UPDATE `department` SET `d_name`=\"" + deptname + "\",`d_numEmployees`="+ deptnumemployees + ",`d_managerFullName`=\""+ deptmanagername + "\" WHERE d_id = " + id
+        cursor.execute(sql_command)
+        conn.commit()
+        clear_fields()
+    def search():
+        id = box_search.get()
+        sql_command = "SELECT `d_name`, `d_numEmployees`, `d_managerFullName` FROM `department` WHERE d_id = " + id
+        print(sql_command)
+        cursor.execute(sql_command)
+        searchResults = (cursor.fetchall())
+        label_search = Label(level, text=searchResults)
+        label_search.grid(row=5, column=3, sticky="w")
+        conn.commit()
+    #------------------------------------------Department Buttons/Boxes/Labels
+    label_id= Label(level, text="DepartmentID Number: ").grid(row=0, column=0, sticky="w")
+    label_deptname= Label(level, text="Department Name: ").grid(row=1, column=0, sticky="w")
+    label_deptnumeployees = Label(level, text="Department Number of Employees: ").grid(row=2, column=0, sticky="w")
+    label_deptheadmanager = Label(level, text="Department Head Manager Full Name: ").grid(row=3, column=0, sticky="w")
+
+    box_id = Entry(level)
+    box_id.grid(row=0, column=1)
+    box_deptname = Entry(level)
+    box_deptname.grid(row=1,column=1)
+    box_deptnumeployees= Entry(level)
+    box_deptnumeployees.grid(row=2,column=1)
+    box_deptheadmanager = Entry(level)
+    box_deptheadmanager.grid(row=3, column=1)
+
+    btn_add = Button(level, text="Add Department To Database", command=add_to_db)
+    btn_add.grid(row=4, column=1, sticky="w")
+    btn_clear_fields = Button(level, text="Clear Fields", command=clear_fields)
+    btn_clear_fields.grid(row=4, column=2)
+    btn_delete = Button(level, text="Delete From DB (Only Enter Department ID#", command=delete)
+    btn_delete.grid(row=4, column=3)
+    btn_update = Button(level, text="Update Department Information (Please Fill In All Information)", command=update)
+    btn_update.grid(row=4, column=0, sticky = "w")
+    btn_search_by_id = Button(level, text="Search by ID#", command=search)
+    btn_search_by_id.grid(row=5, column=0, sticky="w")
+    searchResults = "Result"
+    label_search = Label(level, text=searchResults)
+    label_search.grid(row=5, column=1, sticky="w")
+    box_search = Entry(level)
+    box_search.grid(row=5, column=2)
 #METHOD -----------------------Open Second Window Method---------------------------------------------
 def open():
     level= Toplevel()
     level.title(clicked.get())
-    level.geometry("1200x600")
+    level.geometry("1000x500")
+    #If structure for window selection from dropdown
     if clicked.get() == "Appointment":
         appointment_crud(level)
     if clicked.get() == "Bill":
@@ -682,6 +1303,18 @@ def open():
         patient_crud(level)
     if clicked.get() == "Doctor":
         doctor_crud(level)
+    if clicked.get() == "Nurse":
+        nurse_crud(level)
+    if clicked.get() == "Secretary":
+        secretary_crud(level)
+    if clicked.get() == "Custodian":
+        custodian_crud(level)
+    if clicked.get() == "Room":
+        room_crud(level)
+    if clicked.get() == "Building":
+        building_crud(level)
+    if clicked.get() == "Department":
+        dept_crud(level)
     #CLOSES WINDOW WHEN "Close Window Clicked"
     #tnClose = Button(top, text="Close Window", command=top.destroy)
 
