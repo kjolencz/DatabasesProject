@@ -546,7 +546,126 @@ def patient_crud(level):
     label_search.grid(row=17, column=1, sticky="w")
     box_search = Entry(level)
     box_search.grid(row=17, column=2)
-#METHOD -----------------------Open Second Window---------------------------------------------
+#---------------------------------------CRUD Methods for Doctor Window----------------------------------------------
+def doctor_crud(level):
+    #Method and button to add doctor to db
+
+    def add_to_db():
+        id = box_id.get()
+        fn = box_fn.get()
+        ln = box_ln.get()
+        mi=box_mi.get()
+        gender = box_gender.get()
+        salary = box_salary.get()
+        phoneNum = box_phonenum.get()
+        ssn = box_ssn.get()
+        startdate = box_startdate.get()
+        enddate = box_enddate.get()
+
+        values = id + ",\"" + fn + "\",\"" + ln + "\""+ ",\"" + mi + "\",\"" + gender + "\",\"" + salary + "\",\"" + phoneNum + "\",\"" + ssn + "\""+ ",\"" + startdate + "\",\"" + enddate + "\""
+        sql_command = "INSERT INTO `doctor`(`doc_id`, `doc_firstName`, `doc_lastName`, `doc_middleIn`, `doc_gender`, `doc_salary`,`doc_phoneNum`, `doc_ssn`, `doc_startDate`, `doc_endDate`) VALUES ("
+        sql_command = sql_command + values
+        sql_command = sql_command + ")"
+        cursor.execute(sql_command)
+        conn.commit()
+        clear_fields()
+
+    #Method and Button to Clear Fields for patient
+    def clear_fields():
+        box_id.delete(0,END)
+        box_fn.delete(0,END)
+        box_ln.delete(0,END)
+        box_mi.delete(0,END)
+        box_gender.delete(0,END)
+        box_phonenum.delete(0,END)
+        box_ssn.delete(0,END)
+        box_startdate.delete(0,END)
+        box_enddate.delete(0,END)
+        box_salary.delete(0,END)
+
+    #Method and Button to Delete ID From DB
+    def delete():
+        id = ""
+        id = id + box_id.get()
+        sql_command = "DELETE FROM `doctor` WHERE doc_id = "
+        sql_command = sql_command + id
+        cursor.execute(sql_command)
+        conn.commit()
+        clear_fields()
+
+    def update():
+        id = box_id.get()
+        fn = box_fn.get()
+        ln = box_ln.get()
+        mi = box_mi.get()
+        gender = box_gender.get()
+        salary = box_salary.get()
+        phoneNum = box_phonenum.get()
+        ssn = box_ssn.get()
+        startdate = box_startdate.get()
+        enddate = box_enddate.get()
+        sql_command = "UPDATE `doctor` SET `doc_firstName`=\"" + fn + "\",`doc_lastName`=\""+ ln + "\",`doc_middleIn`=\""+ mi + "\",`doc_gender`=\"" + gender + "\",`doc_salary`=\"" + salary + "\",`doc_phoneNum`=\""+ phoneNum + "\",`doc_ssn`="+ ssn + ",`doc_startDate`=\""+ startdate + "\",`doc_endDate`=\""+ enddate + "\" WHERE doc_id = " + id
+        cursor.execute(sql_command)
+        conn.commit()
+        clear_fields()
+    def search():
+        id = box_search.get()
+        sql_command = "SELECT `doc_firstName`, `doc_lastName`, `doc_middleIn`, `doc_gender`,`doc_salary`,`doc_phoneNum`,`doc_ssn`,`doc_startDate`,`doc_endDate`  FROM `doctor` WHERE doc_id = " + id
+        print(sql_command)
+        cursor.execute(sql_command)
+        searchResults = (cursor.fetchall())
+        label_search = Label(level, text=searchResults)
+        label_search.grid(row=11, column=3, sticky="w")
+        conn.commit()
+    #------------------------------------------Doctor Buttons/Boxes/Labels
+    label_id= Label(level, text="Doctor ID Number: ").grid(row=0, column=0, sticky="w")
+    label_fn = Label(level, text="Doctor First Name: ").grid(row=1, column=0, sticky="w")
+    label_ln = Label(level, text="Doctor Last Name: ").grid(row=2, column=0, sticky="w")
+    label_mi = Label(level, text="Doctor Middle Initial: ").grid(row=3, column=0, sticky="w")
+    label_gender= Label(level, text="Doctor Gender: ").grid(row=4, column=0, sticky="w")
+    label_salary = Label(level, text="Doctor Salary: ").grid(row=5, column=0, sticky="w")
+    label_phonenum = Label(level, text="Doctor Phone Number: ").grid(row=6, column=0, sticky="w")
+    label_patientssn = Label(level, text="Doctor Social Security Number(No Hyphens): ").grid(row=7, column=0, sticky="w")
+    label_startdate= Label(level, text="Doctor Start Date (yyyy-dd-mm): ").grid(row=8, column=0, sticky="w")
+    label_enddate = Label(level, text="Doctor End Date (yyyy-dd-mm): ").grid(row=9, column=0, sticky="w")
+
+    box_id = Entry(level)
+    box_id.grid(row=0, column=1)
+    box_fn = Entry(level)
+    box_fn.grid(row=1,column=1)
+    box_ln = Entry(level)
+    box_ln.grid(row=2,column=1)
+    box_mi = Entry(level)
+    box_mi.grid(row=3, column=1)
+    box_gender = Entry(level)
+    box_gender.grid(row=4, column=1)
+    box_salary = Entry(level)
+    box_salary.grid(row=5, column=1)
+    box_phonenum = Entry(level)
+    box_phonenum.grid(row=6, column=1)
+    box_ssn = Entry(level)
+    box_ssn.grid(row=7, column=1)
+    box_startdate = Entry(level)
+    box_startdate.grid(row=8, column=1)
+    box_enddate = Entry(level)
+    box_enddate.grid(row=9, column=1)
+
+    btn_add = Button(level, text="Add Doctor To Database", command=add_to_db)
+    btn_add.grid(row=10, column=1, sticky="w")
+    btn_clear_fields = Button(level, text="Clear Fields", command=clear_fields)
+    btn_clear_fields.grid(row=10, column=2)
+    btn_delete = Button(level, text="Delete From DB (Only Enter Doctor ID#", command=delete)
+    btn_delete.grid(row=10, column=3)
+    btn_update = Button(level, text="Update Doctor Information (Please Fill In All Information)", command=update)
+    btn_update.grid(row=10, column=0, sticky = "w")
+    btn_search_by_id = Button(level, text="Search by ID#", command=search)
+    btn_search_by_id.grid(row=11, column=0, sticky="w")
+    searchResults = "Result"
+    label_search = Label(level, text=searchResults)
+    label_search.grid(row=11, column=1, sticky="w")
+    box_search = Entry(level)
+    box_search.grid(row=11, column=2)
+#METHOD -----------------------Open Second Window Method---------------------------------------------
 def open():
     level= Toplevel()
     level.title(clicked.get())
@@ -561,6 +680,8 @@ def open():
         eq_crud(level)
     if clicked.get() == "Patient":
         patient_crud(level)
+    if clicked.get() == "Doctor":
+        doctor_crud(level)
     #CLOSES WINDOW WHEN "Close Window Clicked"
     #tnClose = Button(top, text="Close Window", command=top.destroy)
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 30, 2020 at 05:21 AM
+-- Generation Time: May 02, 2020 at 09:43 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.29
 
@@ -38,9 +38,22 @@ CREATE TABLE `appointment` (
 --
 
 INSERT INTO `appointment` (`a_id`, `a_startTime`, `a_endTime`) VALUES
-(10, '10:00:00', '00:00:00'),
-(111, '10:00:00', '00:00:00'),
-(123, '10:00:00', '10:30:00');
+(0, '02:00:00', '03:00:00'),
+(1, '02:00:00', '02:30:00'),
+(3, '04:00:00', '05:00:00'),
+(10, '03:00:00', '00:00:00'),
+(11, '01:12:00', '01:13:00'),
+(12, '02:00:00', '03:00:00'),
+(14, '12:00:00', '11:00:00'),
+(22, '03:00:00', '00:00:22'),
+(39, '10:00:00', '11:45:00'),
+(69, '03:00:00', '00:00:04'),
+(111, '04:00:00', '08:00:00'),
+(123, '03:00:00', '13:00:00'),
+(999, '10:00:00', '11:00:00'),
+(1111, '00:00:01', '00:00:02'),
+(1234, '00:22:00', '00:33:00'),
+(11111, '00:00:00', '00:00:00');
 
 -- --------------------------------------------------------
 
@@ -60,7 +73,11 @@ CREATE TABLE `bill` (
 --
 
 INSERT INTO `bill` (`bill_id`, `bill_amount`, `bill_isPaid`, `bill_isuee`) VALUES
-(0, 100.01, 0, '');
+(0, 100.01, 0, ''),
+(333, 333, 1, 'BOEBODHOD'),
+(456, 456, 1, 'Heiii'),
+(1234, 100, 0, 'Bob Boil'),
+(1235, 100, 1, 'Bob Boil');
 
 -- --------------------------------------------------------
 
@@ -140,6 +157,13 @@ CREATE TABLE `doctor` (
   `doc_endDate` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `doctor`
+--
+
+INSERT INTO `doctor` (`doc_id`, `doc_firstName`, `doc_lastName`, `doc_middleIn`, `doc_gender`, `doc_salary`, `doc_phoneNum`, `doc_ssn`, `doc_startDate`, `doc_endDate`) VALUES
+(1, 'Mike', 'Mikelson', 'M', 'M', 0, '444-444-4444', 444444444, '4444-04-04', '4444-05-05');
+
 -- --------------------------------------------------------
 
 --
@@ -175,7 +199,11 @@ CREATE TABLE `equipment` (
 --
 
 INSERT INTO `equipment` (`eq_id`, `eq_desc`, `eq_name`) VALUES
-(1, 'revives dead person', 'defibulator');
+(1, '1', '1'),
+(2, 'REEE', 'Retardonator'),
+(3, 'bongo', 'bingo'),
+(4, '4', '4'),
+(123, '1121', '111');
 
 -- --------------------------------------------------------
 
@@ -197,7 +225,10 @@ CREATE TABLE `medical record` (
 --
 
 INSERT INTO `medical record` (`mr_id`, `mr_pastIllnesses`, `mr_allergies`, `mr_fn`, `mr_mi`, `mr_ln`) VALUES
-(1, 'Test', 'Test', 'Test', 'T', 'Tester');
+(1, 'Test', 'Test', 'Test', 'T', 'Tester'),
+(22, 'A', 'A', 'A', 'A', 'A'),
+(3333, 'r', 'r', 'r', 'r', 'r'),
+(12345, 'TEST', 'TEST', 'TESt', 'T', 'TEST');
 
 -- --------------------------------------------------------
 
@@ -248,7 +279,8 @@ CREATE TABLE `patient` (
 --
 
 INSERT INTO `patient` (`p_id`, `p_firstName`, `p_lastName`, `p_middleIn`, `p_gender`, `p_phoneNum`, `p_ssn`, `p_admissionDate`, `p_releaseDate`, `p_insuranceName`, `p_insuranceNum`, `p_buildingNum`, `p_roomNum`, `p_medicalRecordId`, `p_billId`, `p_appointmentId`) VALUES
-(0, 'Test', 'Testerton', 'T', 'M', '410-111-1111', 101010100, '0000-00-00', '0000-00-00', 'Insurance Test', 100, 0, 0, 100, 100, 100);
+(0, 'Test', 'Testerton', 'T', 'M', '410-111-1111', 101010100, '0000-00-00', '0000-00-00', 'Insurance Test', 100, 0, 0, 100, 100, 100),
+(12345, 'Kevin', 'Olen', 'J', 'M', '444-444-4444', 222, '2016-10-10', '2016-10-10', 'Allstate', 12, 13, 14, 15, 16, 17);
 
 -- --------------------------------------------------------
 
