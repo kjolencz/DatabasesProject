@@ -18,7 +18,7 @@ clicked = StringVar()
 clicked.set("Appointment")
 dropdownMenu = OptionMenu(root, clicked, "Appointment", "Bill", "Medical Record", "Equipment", "Patient", "Doctor",
                           "Nurse", "Secretary", "Custodian", "Room", "Building", "Department", "Perscription", "Distributor", "Employee")
-dropdownMenu.pack()
+
 
 #---------------------------------------CRUD Methods for Appointment Window----------------------------------------------
 def appointment_crud(level):
@@ -1459,7 +1459,14 @@ def open():
     #tnClose = Button(top, text="Close Window", command=top.destroy)
 
 #Button To Open Second Window With CRUD Options--------------------------------------------------
-buttonConfirmTable = Button(root, text="Open CRUD", command=open).pack()
+
+#Welcome Text
+welcometext = "Welcome To The Hospital CRM Tool. Please Select the table you would like to interact with."
+#welcome label
+
+welcome_label = Label(root, text=welcometext).pack(side = TOP)
+dropdownMenu.pack(side = TOP)
+buttonConfirmTable = Button(root, text="Interact With", command=open).pack(side = TOP)
 
 #Keeps Windows Running
 mainloop()
