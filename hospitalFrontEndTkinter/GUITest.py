@@ -17,7 +17,7 @@ cursor = conn.cursor()
 clicked = StringVar()
 clicked.set("Appointment")
 dropdownMenu = OptionMenu(root, clicked, "Appointment", "Bill", "Medical Record", "Equipment", "Patient", "Doctor",
-                          "Nurse", "Secretary", "Custodian", "Room", "Building", "Department")
+                          "Nurse", "Secretary", "Custodian", "Room", "Building", "Department", "Perscription", "Distributor", "Employee")
 dropdownMenu.pack()
 
 #---------------------------------------CRUD Methods for Appointment Window----------------------------------------------
@@ -1123,6 +1123,288 @@ def dept_crud(level):
     label_search.grid(row=5, column=2, sticky="w")
     box_search = Entry(level)
     box_search.grid(row=5, column=1)
+#---------------------------------------CRUD Methods for Perscription Window----------------------------------------------
+def perscription_crud(level):
+    #Method and button to add Perscription to db
+
+    def add_to_db():
+        id = box_id.get()
+        medicinename = box_medicinename.get()
+        distributorid = box_distributorid.get()
+        forpatient = box_forpatient.get()
+        persribedby = box_prescribedby.get()
+
+        values = id + ",\"" + medicinename + "\"," + distributorid + "," + forpatient + "," + persribedby + ")"
+        sql_command = "INSERT INTO `perscription`(`persc_id`, `persc_medicineName`, `persc_distributorId`, `persc_forPatient`, `persc_perscribedBy`) VALUES ("
+        sql_command = sql_command + values
+        cursor.execute(sql_command)
+        conn.commit()
+        clear_fields()
+
+    #Method and Button to Clear Fields for Perscription
+    def clear_fields():
+        box_id.delete(0,END)
+        box_prescribedby.delete(0,END)
+        box_forpatient.delete(0,END)
+        box_distributorid.delete(0,END)
+        box_search.delete(0,END)
+        box_prescribedby.delete(0,END)
+        box_medicinename.delete(0,END)
+
+    #Method and Button to Delete ID From DB
+    def delete():
+        id = ""
+        id = id + box_id.get()
+        sql_command = "DELETE FROM `perscription` WHERE persc_id = "
+        sql_command = sql_command + id
+        cursor.execute(sql_command)
+        conn.commit()
+        clear_fields()
+
+    def update():
+        id = box_id.get()
+        medicinename = box_medicinename.get()
+        distributorid = box_distributorid.get()
+        forpatient = box_forpatient.get()
+        persribedby = box_prescribedby.get()
+        sql_command = "UPDATE `perscription` SET `persc_medicineName`=\"" + medicinename + "\",`persc_distributorId`=" + distributorid + ",`persc_forPatient`=" + forpatient + ",`persc_perscribedBy`=" + persribedby + " WHERE `persc_id`=" + id
+        cursor.execute(sql_command)
+        conn.commit()
+        clear_fields()
+    def search():
+        id = box_search.get()
+        sql_command = "SELECT `persc_medicineName`, `persc_distributorId`, `persc_forPatient`, `persc_perscribedBy` FROM `perscription` WHERE `persc_id` =" + id
+        cursor.execute(sql_command)
+        searchResults = (cursor.fetchall())
+        label_search = Label(level, text=searchResults)
+        label_search.grid(row=6, column=3, sticky="w")
+        conn.commit()
+    #------------------------------------------Perscription Buttons/Boxes/Labels
+    label_id= Label(level, text="Perscription ID Number: ").grid(row=0, column=0, sticky="w")
+    label_medicinename =  Label(level, text="Medication Name: ").grid(row=1, column=0, sticky="w")
+    label_distributorid = Label(level, text="Distributor ID#: ").grid(row=2, column=0, sticky="w")
+    label_forpatient= Label(level, text="For Patient (ID#): ").grid(row=3, column=0, sticky="w")
+    label_prescribedby= Label(level, text="Prescribed By (Doc ID#): ").grid(row=4, column=0, sticky="w")
+
+    box_id = Entry(level)
+    box_id.grid(row=0, column=1)
+    box_medicinename = Entry(level)
+    box_medicinename.grid(row=1,column=1)
+    box_distributorid = Entry(level)
+    box_distributorid.grid(row=2, column=1)
+    box_forpatient= Entry(level)
+    box_forpatient.grid(row=3,column=1)
+    box_prescribedby  = Entry(level)
+    box_prescribedby.grid(row=4, column=1)
+
+    btn_add = Button(level, text="Add Perscription To Database", command=add_to_db)
+    btn_add.grid(row=5, column=1, sticky="w")
+    btn_clear_fields = Button(level, text="Clear Fields", command=clear_fields)
+    btn_clear_fields.grid(row=5, column=2)
+    btn_delete = Button(level, text="Delete From DB (Only Enter Perscription ID#", command=delete)
+    btn_delete.grid(row=5, column=3)
+    btn_update = Button(level, text="Update Perscription Information", command=update)
+    btn_update.grid(row=5, column=0, sticky = "w")
+    btn_search_by_id = Button(level, text="Search by ID#", command=search)
+    btn_search_by_id.grid(row=6, column=0, sticky="w")
+    searchResults = "{}  ->"
+    label_search = Label(level, text=searchResults)
+    label_search.grid(row=6, column=2, sticky="w")
+    box_search = Entry(level)
+    box_search.grid(row=6, column=1)
+#---------------------------------------CRUD Methods for Distributor Window----------------------------------------------
+def distributor_crud(level):
+    #Method and button to add Distributor to db
+
+    def add_to_db():
+        id = box_id.get()
+        distdept = box_distdept.get()
+        distname = box_distname.get()
+        distproduct = box_distproduct.get()
+
+        values = "\"" + distname + "\",\"" + distproduct + "\"," + id + "," + distdept
+        sql_command = "INSERT INTO `distributor`(`dist_name`, `dist_product`, `dist_id`, `dist_department`) VALUES ("
+        sql_command = sql_command + values + ")"
+        cursor.execute(sql_command)
+        conn.commit()
+        clear_fields()
+
+    #Method and Button to Clear Fields for Distributor
+    def clear_fields():
+        box_id.delete(0,END)
+        box_search.delete(0,END)
+        box_distdept.delete(0,END)
+        box_distname.delete(0,END)
+        box_distproduct.delete(0,END)
+
+    #Method and Button to Delete ID From DB
+    def delete():
+        id = ""
+        id = id + box_id.get()
+        sql_command = "DELETE FROM `distributor` WHERE dist_id = "
+        sql_command = sql_command + id
+        cursor.execute(sql_command)
+        conn.commit()
+        clear_fields()
+
+    def update():
+        id = box_id.get()
+        distdept = box_distdept.get()
+        distname = box_distname.get()
+        distproduct = box_distproduct.get()
+
+        sql_command = "UPDATE `distributor` SET `dist_name`=\"" + distname + "\",`dist_product`=\"" + distproduct + "\",`dist_department`=" + distdept + " WHERE `dist_id` = " + id
+        cursor.execute(sql_command)
+        conn.commit()
+        clear_fields()
+    def search():
+        id = box_search.get()
+        sql_command = "SELECT `dist_name`, `dist_product`, `dist_department` FROM `distributor` WHERE `dist_id` = " + id
+        cursor.execute(sql_command)
+        searchResults = (cursor.fetchall())
+        label_search = Label(level, text=searchResults)
+        label_search.grid(row=5, column=3, sticky="w")
+        conn.commit()
+    #------------------------------------------Distributor Buttons/Boxes/Labels
+    label_id= Label(level, text="Distributor ID#: ").grid(row=0, column=0, sticky="w")
+    label_distname =  Label(level, text="Distributor  Name: ").grid(row=1, column=0, sticky="w")
+    label_distproduct = Label(level, text="Distributor Product: ").grid(row=2, column=0, sticky="w")
+    label_distdept= Label(level, text="Distributor Department ID#: ").grid(row=3, column=0, sticky="w")
+
+    box_id = Entry(level)
+    box_id.grid(row=0, column=1)
+    box_distname = Entry(level)
+    box_distname.grid(row=1,column=1)
+    box_distproduct = Entry(level)
+    box_distproduct.grid(row=2, column=1)
+    box_distdept= Entry(level)
+    box_distdept.grid(row=3,column=1)
+
+    btn_add = Button(level, text="Add Distributor To Database", command=add_to_db)
+    btn_add.grid(row=4,column=1, sticky="w")
+    btn_clear_fields = Button(level, text="Clear Fields", command=clear_fields)
+    btn_clear_fields.grid(row=4, column=2)
+    btn_delete = Button(level, text="Delete From DB (Only Enter Distributor ID#", command=delete)
+    btn_delete.grid(row=4, column=3)
+    btn_update = Button(level, text="Update Distributor Information", command=update)
+    btn_update.grid(row=4, column=0, sticky = "w")
+    btn_search_by_id = Button(level, text="Search by ID#", command=search)
+    btn_search_by_id.grid(row=5, column=0, sticky="w")
+    searchResults = "{}  ->"
+    label_search = Label(level, text=searchResults)
+    label_search.grid(row=5, column=2, sticky="w")
+    box_search = Entry(level)
+    box_search.grid(row=5, column=1)
+
+#---------------------------------------CRUD Methods for Employee Window----------------------------------------------
+def employee_crud(level):
+    #Method and button to add Employee to db
+
+    def add_to_db():
+        id = box_id.get()
+        ssn = box_ssn.get()
+        firstname = box_firstname.get()
+        middlein = box_middlein.get()
+        lastname = box_lastname.get()
+        gender = box_gender.get()
+        datehired = box_datehired.get()
+        phonenumber = box_phonenumber.get()
+
+        values = id + "," + ssn + ",\"" + firstname + "\",\"" + middlein + "\",\"" + lastname + "\",\"" + datehired + "\",\"" + gender + "\",\"" + phonenumber + "\""
+        sql_command = "INSERT INTO `employee`(`employee_id`, `employee_ssn`, `employee_firstName`, `employee_middleIn`, `employee_lastName`, `employee_hired`, `employee_gender`, `employee_phone`) VALUES ("
+        sql_command = sql_command + values + ")"
+        cursor.execute(sql_command)
+        conn.commit()
+        clear_fields()
+
+    #Method and Button to Clear Fields for Employee
+    def clear_fields():
+        box_id.delete(0,END)
+        box_search.delete(0,END)
+        box_ssn.delete(0,END)
+        box_firstname.delete(0,END)
+        box_middlein.delete(0,END)
+        box_lastname.delete(0,END)
+        box_gender.delete(0,END)
+        box_datehired.delete(0,END)
+        box_phonenumber.delete(0,END)
+
+    #Method and Button to Delete ID From DB
+    def delete():
+        id = ""
+        id = id + box_id.get()
+        sql_command = "DELETE FROM `employee` WHERE employee_id = "
+        sql_command = sql_command + id
+        cursor.execute(sql_command)
+        conn.commit()
+        clear_fields()
+
+    def update():
+        id = box_id.get()
+        ssn = box_ssn.get()
+        firstname = box_firstname.get()
+        middlein = box_middlein.get()
+        lastname = box_lastname.get()
+        gender = box_gender.get()
+        datehired = box_datehired.get()
+        phonenumber = box_phonenumber.get()
+
+        sql_command = "UPDATE `employee` SET `employee_ssn`=" + ssn + ",`employee_firstName`=\"" + firstname + "\",`employee_middleIn`=\"" + middlein + "\",`employee_lastName`=\""+lastname + "\",`employee_hired`=\"" + datehired + "\",`employee_gender`=\"" + gender + "\",`employee_phone`=\"" + phonenumber + "\" WHERE `employee_id` = " + id
+        print(sql_command)
+        cursor.execute(sql_command)
+        conn.commit()
+        clear_fields()
+    def search():
+        id = box_search.get()
+        sql_command = "SELECT `employee_ssn`, `employee_firstName`, `employee_middleIn`, `employee_lastName`, `employee_hired`, `employee_gender`, `employee_phone` FROM `employee` WHERE `employee_id` = " + id
+        cursor.execute(sql_command)
+        searchResults = (cursor.fetchall())
+        label_search = Label(level, text=searchResults)
+        label_search.grid(row=9, column=3, sticky="w")
+        conn.commit()
+    #------------------------------------------Employee Buttons/Boxes/Labels
+    label_id= Label(level, text="Employee ID#: ").grid(row=0, column=0, sticky="w")
+    label_ssn =  Label(level, text="Employee SSN: ").grid(row=1, column=0, sticky="w")
+    label_firstname = Label(level, text="Employee First Name: ").grid(row=2, column=0, sticky="w")
+    label_middlein = Label(level, text="Employee Middle Initial: ").grid(row=3, column=0, sticky="w")
+    label_lastname= Label(level, text="Employee Last Name: ").grid(row=4, column=0, sticky="w")
+    label_datehired = Label(level, text="Employee Date Hired (yyyy-mm-dd): ").grid(row=5, column=0, sticky="w")
+    label_gender = Label(level, text="Employee Gender: ").grid(row=6, column=0, sticky="w")
+    label_phonenumber = Label(level, text="Employee Phone Number: ").grid(row=7, column=0, sticky="w")
+
+    box_id = Entry(level)
+    box_id.grid(row=0, column=1)
+    box_ssn = Entry(level)
+    box_ssn.grid(row=1,column=1)
+    box_firstname = Entry(level)
+    box_firstname.grid(row=2, column=1)
+    box_middlein= Entry(level)
+    box_middlein.grid(row=3,column=1)
+    box_lastname = Entry(level)
+    box_lastname.grid(row=4, column=1)
+    box_datehired = Entry(level)
+    box_datehired.grid(row=5, column=1)
+    box_gender = Entry(level)
+    box_gender.grid(row=6, column=1)
+    box_phonenumber = Entry(level)
+    box_phonenumber.grid(row=7, column=1)
+
+    btn_add = Button(level, text="Add Employee To Database", command=add_to_db)
+    btn_add.grid(row=8,column=1, sticky="w")
+    btn_clear_fields = Button(level, text="Clear Fields", command=clear_fields)
+    btn_clear_fields.grid(row=8, column=2)
+    btn_delete = Button(level, text="Delete From DB (Only Enter Employee ID#", command=delete)
+    btn_delete.grid(row=8, column=3)
+    btn_update = Button(level, text="Update Employee Information", command=update)
+    btn_update.grid(row=8, column=0, sticky = "w")
+    btn_search_by_id = Button(level, text="Search by ID#", command=search)
+    btn_search_by_id.grid(row=9, column=0, sticky="w")
+    searchResults = "{}  ->"
+    label_search = Label(level, text=searchResults)
+    label_search.grid(row=9, column=2, sticky="w")
+    box_search = Entry(level)
+    box_search.grid(row=9, column=1)
+
 #METHOD -----------------------Open Second Window Method---------------------------------------------
 def open():
     level= Toplevel()
@@ -1162,6 +1444,12 @@ def open():
         building_crud(level)
     if clicked.get() == "Department":
         dept_crud(level)
+    if clicked.get() == "Perscription":
+        perscription_crud(level)
+    if clicked.get() == "Distributor":
+        distributor_crud(level)
+    if clicked.get() == "Employee":
+        employee_crud(level)
     #CLOSES WINDOW WHEN "Close Window Clicked"
     #tnClose = Button(top, text="Close Window", command=top.destroy)
 
