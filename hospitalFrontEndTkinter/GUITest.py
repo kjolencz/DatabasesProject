@@ -1207,7 +1207,7 @@ def perscription_crud(level):
     btn_update.grid(row=5, column=0, sticky = "w")
     btn_search_by_id = Button(level, text="Search by ID#", command=search)
     btn_search_by_id.grid(row=6, column=0, sticky="w")
-    searchResults = "{}  ->"
+    searchResults = "{MedicineName DistributorID# PatientID# DoctorID#}  ->"
     label_search = Label(level, text=searchResults)
     label_search.grid(row=6, column=2, sticky="w")
     box_search = Entry(level)
@@ -1290,7 +1290,7 @@ def distributor_crud(level):
     btn_update.grid(row=4, column=0, sticky = "w")
     btn_search_by_id = Button(level, text="Search by ID#", command=search)
     btn_search_by_id.grid(row=5, column=0, sticky="w")
-    searchResults = "{}  ->"
+    searchResults = "{Name Product Department}  ->"
     label_search = Label(level, text=searchResults)
     label_search.grid(row=5, column=2, sticky="w")
     box_search = Entry(level)
@@ -1350,7 +1350,6 @@ def employee_crud(level):
         phonenumber = box_phonenumber.get()
 
         sql_command = "UPDATE `employee` SET `employee_ssn`=" + ssn + ",`employee_firstName`=\"" + firstname + "\",`employee_middleIn`=\"" + middlein + "\",`employee_lastName`=\""+lastname + "\",`employee_hired`=\"" + datehired + "\",`employee_gender`=\"" + gender + "\",`employee_phone`=\"" + phonenumber + "\" WHERE `employee_id` = " + id
-        print(sql_command)
         cursor.execute(sql_command)
         conn.commit()
         clear_fields()
@@ -1399,13 +1398,13 @@ def employee_crud(level):
     btn_update.grid(row=8, column=0, sticky = "w")
     btn_search_by_id = Button(level, text="Search by ID#", command=search)
     btn_search_by_id.grid(row=9, column=0, sticky="w")
-    searchResults = "{}  ->"
+    searchResults = "{SSN FirstName MiddleInitial LastName DateHired Gender PhoneNumber}  ->"
     label_search = Label(level, text=searchResults)
     label_search.grid(row=9, column=2, sticky="w")
     box_search = Entry(level)
     box_search.grid(row=9, column=1)
 
-#METHOD -----------------------Open Second Window Method---------------------------------------------
+#METHOD -----------------------Open Window Method---------------------------------------------
 def open():
     level= Toplevel()
     level.title(clicked.get())
@@ -1439,16 +1438,22 @@ def open():
         level.geometry("1000x200")
         custodian_crud(level)
     if clicked.get() == "Room":
+        level.geometry("1000x175")
         room_crud(level)
     if clicked.get() == "Building":
+        level.geometry("1000x175")
         building_crud(level)
     if clicked.get() == "Department":
+        level.geometry("1000x175")
         dept_crud(level)
     if clicked.get() == "Perscription":
+        level.geometry("900x200")
         perscription_crud(level)
     if clicked.get() == "Distributor":
+        level.geometry("900x200")
         distributor_crud(level)
     if clicked.get() == "Employee":
+        level.geometry("1100x250")
         employee_crud(level)
     #CLOSES WINDOW WHEN "Close Window Clicked"
     #tnClose = Button(top, text="Close Window", command=top.destroy)
