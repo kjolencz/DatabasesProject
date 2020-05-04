@@ -10,7 +10,7 @@ conn = pymysql.connect(
     host="localhost",
     user="root",
     passwd="",
-    db="test"
+    db="test123"
 )
 cursor = conn.cursor()
 
