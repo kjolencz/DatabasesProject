@@ -3,6 +3,6 @@
 2. Click Admin button
 3. Import .sql file
   
-  In python file editor:
-   4. change name of db at top of python code
-   5. Run code
+In python file editor:
+4. change name of db at top of python code
+5. Run code
